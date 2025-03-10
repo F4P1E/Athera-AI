@@ -88,4 +88,3 @@ node index.js
 - [ ] Improve UI with more Tailwind components
 
 Feel free to contribute! 😊🎉
-```
