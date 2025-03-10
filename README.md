@@ -1,5 +1,3 @@
----
-
 ### **README.md**
 ```md
 # Full Stack React + Express Project
@@ -91,5 +89,3 @@ node index.js
 
 Feel free to contribute! 😊🎉
 ```
-
----
