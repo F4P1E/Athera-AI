@@ -1,4 +1,4 @@
-# Full Stack React + Express Project
+# Athera AI Project - Next.js
 
 This is a full-stack web application with a **React frontend (client) using Tailwind CSS** and a **Node.js/Express backend (server)**.
 
