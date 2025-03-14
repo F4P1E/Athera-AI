@@ -6,7 +6,7 @@ This is a full-stack web application with a **React frontend (client) using Tail
 
 ```
 /your-project
-├── /client (React + Tailwind)
+├── /client (Next.js + Tailwind CSS + Shadcn/ui)
 ├── /server (Node.js + Express)
 ├── package.json
 ├── README.md
@@ -31,37 +31,36 @@ npm run dev
 
 #### **Features:**
 
-✅ React with Vite  
+✅ Next.js 
 ✅ Tailwind CSS for styling  
-✅ React Router for navigation
 
 ## **🔹 Server Setup (Node.js + Express + CORS)**
 
 ```sh
 cd server
 npm install
-node index.js
+node server.js
 ```
 
 #### **Features:**
 
 ✅ Express.js as backend  
 ✅ CORS enabled for API requests  
-✅ Simple API endpoint at `http://localhost:5000/`
+✅ Simple API endpoint at `http://localhost:8080/`
 
 ## **🔗 API Example**
 
 The client fetches data from the server using this endpoint:
 
 ```
-GET http://localhost:5000/
+GET http://localhost:8080/
 ```
 
 Example response:
 
 ```json
 {
-  "message": "Server is running..."
+  "message": "Server started on..."
 }
 ```
 
@@ -80,7 +79,7 @@ npm run dev
 
 ```sh
 cd server
-node index.js
+node server.js
 ```
 
 ## 📌 **Future Improvements**
