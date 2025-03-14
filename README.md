@@ -1,15 +1,20 @@
 # Athera AI Project - Next.js
 
-This is a full-stack web application with a **React frontend (client) using Tailwind CSS** and a **Node.js/Express backend (server)**.
+A modern web application built with **Next.js 15**, **TypeScript**, **Tailwind CSS**, and **Shadcn/ui** components.
 
 ## 📁 Project Structure
 
 ```
-/your-project
-├── /client (Next.js + Tailwind CSS + Shadcn/ui)
-├── /server (Node.js + Express)
+/athera-ai
+├── /src
+│   ├── /app (Next.js App Router)
+│   ├── /components (Reusable UI components)
+│   └── /lib (Utility functions and configurations)
+├── /public (Static assets)
 ├── package.json
-├── README.md
+├── tsconfig.json
+├── components.json (Shadcn/ui config)
+└── README.md
 ```
 
 ## 🚀 **Setup Instructions**
@@ -18,74 +23,45 @@ This is a full-stack web application with a **React frontend (client) using Tail
 
 ```sh
 git clone https://github.com/F4P1E/Athera-AI.git
-cd athera-ai-project
+cd Athera-AI
 ```
 
-## **🔹 Client Setup (React + Tailwind + React Router)**
+### **2️⃣ Install Dependencies**
 
 ```sh
-cd client
 npm install
+```
+
+### **3️⃣ Run Development Server**
+
+```sh
 npm run dev
 ```
 
-#### **Features:**
+The application will start in development mode with Turbopack enabled. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-✅ Next.js 
-✅ Tailwind CSS for styling  
+## 🔧 **Tech Stack**
 
-## **🔹 Server Setup (Node.js + Express + CORS)**
+- ✅ **Next.js 15** - React framework with App Router
+- ✅ **TypeScript** - Type safety and better developer experience
+- ✅ **Tailwind CSS** - Utility-first CSS framework
+- ✅ **Shadcn/ui** - Re-usable components built with Radix UI and Tailwind
+- ✅ **ESLint** - Code linting
+- ✅ **Turbopack** - Incremental bundler for faster development
 
-```sh
-cd server
-npm install
-node server.js
-```
+## 📜 **Available Scripts**
 
-#### **Features:**
-
-✅ Express.js as backend  
-✅ CORS enabled for API requests  
-✅ Simple API endpoint at `http://localhost:8080/`
-
-## **🔗 API Example**
-
-The client fetches data from the server using this endpoint:
-
-```
-GET http://localhost:8080/
-```
-
-Example response:
-
-```json
-{
-  "message": "Server started on..."
-}
-```
-
-## **🎯 Running Both Together**
-
-### Open two terminals:
-
-#### **Client:**
-
-```sh
-cd client
-npm run dev
-```
-
-#### **Server:**
-
-```sh
-cd server
-node server.js
-```
+- `npm run dev` - Starts development server with Turbopack
+- `npm run build` - Creates production build
+- `npm start` - Runs production server
+- `npm run lint` - Runs ESLint for code linting
 
 ## 📌 **Future Improvements**
 
-- [ ] Add database
-- [ ] Implement authentication (JWT, OAuth)
-- [ ] Improve UI with more Tailwind components
+- [ ] Add authentication system
+- [ ] Implement database integration
+- [ ] Add more interactive UI components
+- [ ] Implement API routes
+- [ ] Add testing framework
 
 Feel free to contribute! 😊🎉
