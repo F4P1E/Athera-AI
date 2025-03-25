@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  apiKey: "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", // Make sure to set this in your .env file
+  apiKey: "API_KEY", // Make sure to set this in your .env file
 });
 
 const completion = openai.chat.completions.create({
