@@ -4,13 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Home, Headphones, BarChart2, Calendar, Menu, X, Settings } from "lucide-react";
+import { Home, Headphones, BarChart2, Calendar, Menu, X, Settings, BotMessageSquareIcon } from "lucide-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
-const meditationData = [
+const meditationData = [ // Sample data for meditation analytics
   { day: "Mon", minutes: 20 },
   { day: "Tue", minutes: 15 },
   { day: "Wed", minutes: 25 },
@@ -20,20 +20,20 @@ const meditationData = [
   { day: "Sun", minutes: 35 },
 ];
 
-export default function Meditation() {
+export default function Meditation() { // Meditation page component
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <div className="flex">
       {/* Sidebar Toggle Button */}
-      <button 
+      <button
         className="fixed top-4 left-4 z-50 bg-[#07304A] text-white p-2 rounded-full shadow-lg md:hidden"
         onClick={() => setSidebarOpen(!sidebarOpen)}
       >
         {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
-      
+
       {/* Sidebar Menu */}
       <aside
         className={`fixed top-0 left-0 h-full bg-[#07304A] text-white w-64 p-6 transition-transform duration-300 ease-in-out 
@@ -61,9 +61,14 @@ export default function Meditation() {
               <Settings size={20} /> Settings
             </Link>
           </li>
+          <li>
+            <Link href="/chatbot" className="flex items-center gap-3 hover:text-[#0AA9ED] cursor-pointer">
+              <BotMessageSquareIcon size={20} /> AI Chatbot
+            </Link>
+          </li>
         </ul>
       </aside>
-      
+
       <main className="ml-0 md:ml-64 w-full bg-[#F0F9FF] text-[#07304A] min-h-screen p-6 transition-all duration-300">
         {/* Hero Section */}
         <section className="text-center py-16">

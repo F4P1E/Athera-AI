@@ -61,8 +61,9 @@ export default function Home() {
           <div className="md:w-1/2 text-center md:text-left">
             <h2 className="text-3xl font-bold text-[#07304A]">Inspiring Success Stories</h2>
             <p className="mt-4 text-lg text-[#07304A]">
-              From improved mindfulness to enhanced mental clarity, our community’s success stories
-              showcase the impact of AI-driven guidance and self-care.
+            At our AI-powered Digital Wellness platform, we celebrate the transformative journeys of our users. 
+            From improved mindfulness and balanced screen time to personalized wellness plans and enhanced mental clarity, our community’s success stories showcase the impact of AI-driven guidance and self-care. 
+            Explore these inspiring experiences and discover how our platform can help you achieve a healthier, more mindful lifestyle.
             </p>
             <Button className="mt-6 bg-[#07304A] text-[#F0F9FF] font-semibold px-6 py-3 rounded-lg hover:bg-[#0077B6]-200 transition duration-300">
               Join Today
