@@ -4,69 +4,133 @@ import Image from "next/image";
 
 export default function AboutUs() {
   return (
-    <div className="bg-gray-100 min-h-screen">
-      {/* Header */}
-      <header className="flex justify-between items-center p-6 bg-gray-100 shadow-md">
-        <div className="text-lg font-bold">Athera AI</div>
-        <nav className="flex gap-6">
-          <Link href="/meditation" className="hover:text-[#34C0FC]">Meditation</Link>
-          <Link href="/mood-diary" className="hover:text-[#34C0FC]">Mood Diary</Link>
-          <Link href="/services" className="hover:text-[#34C0FC]">Services</Link>
-          <Link href="/about" className="hover:text-[#34C0FC]">About Us</Link>
+    <div className="bg-gradient-to-br from-[#F0F5FF] to-[#DDE7F9] min-h-screen">
+      {/* ✅ Header */}
+      <header className="flex justify-between items-center p-6 bg-white shadow-md fixed top-0 left-0 w-full z-20">
+        <div className="text-lg font-bold text-gray-900">Athera AI</div>
+        <nav className="flex gap-6 text-gray-700 font-medium">
+          <Link href="/meditation" className="hover:text-[#34C0FC] transition">Meditation</Link>
+          <Link href="/mood-diary" className="hover:text-[#34C0FC] transition">Mood Diary</Link>
+          <Link href="/services" className="hover:text-[#34C0FC] transition">Services</Link>
+          <Link href="/about" className="hover:text-[#34C0FC] transition">About Us</Link>
         </nav>
         <Link href="/sign-in">
-          <Button className="bg-[#07304A] hover:bg-[#34C0FC] text-white">Sign In</Button>
+          <Button className="bg-[#07304A] hover:bg-[#34C0FC] text-white px-4 py-2 rounded-md shadow">
+            Sign In
+          </Button>
         </Link>
       </header>
 
-      {/* About Us Section */}
-      {/* About Us Section */}
-      <section className="bg-gray-100 min-h-screen flex items-center justify-center py-16 px-4">
-        <div className="container mx-auto flex flex-col md:flex-row items-center justify-center gap-8 max-w-screen-lg">
+      {/* ✅ Hero Section */}
+      <section className="relative flex flex-col items-center justify-center text-center pt-28 pb-16 px-6">
+        <h1 className="text-5xl font-extrabold text-gray-900 drop-shadow-md">
+          About <span className="text-[#34C0FC]">Athera AI</span>
+        </h1>
+        <p className="text-lg text-gray-600 mt-4 max-w-2xl">
+          A fusion of AI & mindfulness, empowering digital wellness through smart, adaptive solutions.
+        </p>
+      </section>
 
-          {/* Left: Centered Logo Section (600x600) */}
-          <div className="bg-[#009FE3] p-10 rounded-lg flex justify-center items-center w-[600px] h-[600px] shadow-lg">
+      {/* ✅ About Us Section */}
+      <section className="flex items-center justify-center py-16 px-4">
+        <div className="container mx-auto flex flex-col lg:flex-row items-center gap-12 max-w-screen-lg">
+
+          {/* Left: Glassmorphism Card with Logo */}
+          <div className="bg-white/50 backdrop-blur-lg p-10 rounded-2xl shadow-2xl flex justify-center items-center w-[500px] h-[500px] border border-white/40">
             <Image
-              src="/logo/Athera AI.png" // Replace with your actual logo path
+              src="/logo/Athera AI.png" // Replace with actual logo path
               alt="Athera AI Logo"
-              width={600}
-              height={600}
-              className="object-contain"
+              width={500}
+              height={500}
+              className="object-contain drop-shadow-lg"
             />
           </div>
 
-          {/* Right: Centered About Us Content (600x600) */}
-          <div className="bg-[#D0E7FA] p-10 rounded-lg w-[600px] h-[600px] shadow-lg flex flex-col justify-center">
-            <h2 className="text-3xl font-bold text-gray-800 text-center">ABOUT US</h2>
-            <p className="mt-4 text-gray-900 font-semibold text-center">
-              Welcome to Athera AI - Digital Wellness, where technology meets mindfulness.
-              We believe in empowering individuals to cultivate healthier digital habits
-              through AI-driven solutions that adapt to your unique lifestyle.
+          {/* Right: Content Section */}
+          <div className="bg-white/50 backdrop-blur-lg p-10 rounded-2xl w-[500px] h-[500px] shadow-2xl border border-white/40 flex flex-col justify-center">
+            <h2 className="text-3xl font-bold text-gray-800 text-center">
+              Our Vision
+            </h2>
+            <p className="mt-4 text-gray-900 font-medium text-center">
+              Athera AI is dedicated to redefining digital wellness. We harness AI to help individuals build mindful, healthy relationships with technology.
             </p>
             <p className="mt-4 text-gray-700 text-md text-center">
-              At Athera AI, we combine cutting-edge artificial intelligence with
-              wellness science to create personalized meditation timers, screen time
-              tracking, and adaptive wellness plans that grow with you.
+              Our adaptive meditation, AI-generated music, and real-time screen tracking ensure that wellness is tailored to you.
             </p>
             <p className="mt-4 text-gray-700 text-md text-center">
-              Whether you're looking to enhance focus, improve sleep, or simply find more
-              balance in your digital life, our platform provides intelligent guidance
-              tailored to your needs.
-            </p>
-            <p className="mt-4 text-gray-700 text-md text-center">
-              Your well-being is at the core of what we do. With seamless social logins,
-              real-time progress tracking, and AI-generated meditation music, we make
-              wellness both accessible and intuitive.
+              By merging AI intelligence with mindfulness science, we personalize every step of your journey towards balance and well-being.
             </p>
             <div className="mt-6 flex justify-center">
-              <Button className="bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg text-lg">
-                Explore More
+              <Button className="bg-gradient-to-r from-blue-600 to-blue-400 text-white px-6 py-3 rounded-lg shadow-lg text-lg hover:scale-105 transition-all duration-300">
+                Learn More
               </Button>
             </div>
           </div>
 
         </div>
       </section>
+
+      {/* ✅ CTA Section */}
+      <section className="text-center py-16 bg-[#07304A] text-white">
+        <h3 className="text-3xl font-bold">Start Your Journey</h3>
+        <p className="text-lg text-gray-300 mt-2">
+          Unlock the power of AI-driven mindfulness and digital well-being.
+        </p>
+        <div className="mt-6">
+          <Button className="bg-[#34C0FC] hover:bg-[#56D8FF] text-white px-6 py-3 rounded-lg shadow-lg text-lg">
+            Get Started
+          </Button>
+        </div>
+      </section>
+
+      {/* ✅ Footer */}
+      <footer className="bg-[#07304A] text-white py-10">
+        <div className="container mx-auto px-6 text-center md:text-left">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Branding Section */}
+            <div>
+              <h2 className="text-2xl font-bold">Athera AI</h2>
+              <p className="text-gray-300 mt-2">
+                Your AI-powered mental health companion. Stay mindful, stay healthy.
+              </p>
+            </div>
+
+            {/* Navigation Links */}
+            <div>
+              <h3 className="text-lg font-semibold">Quick Links</h3>
+              <div className="my-2 h-0.5 bg-gray-500 w-full"></div>
+              <ul className="space-y-2">
+                <li><Link href="/" className="hover:text-[#0AA9ED] transition">Home</Link></li>
+                <li><Link href="/about" className="hover:text-[#0AA9ED] transition">About Us</Link></li>
+                <li><Link href="/services" className="hover:text-[#0AA9ED] transition">Services</Link></li>
+                <li><Link href="/contact" className="hover:text-[#0AA9ED] transition">Contact</Link></li>
+              </ul>
+            </div>
+
+            {/* Social Media Links */}
+            <div>
+              <h3 className="text-lg font-semibold">Follow Us</h3>
+              <div className="my-2 h-0.5 bg-gray-500 w-full"></div>
+              <div className="flex justify-center md:justify-start gap-4 mt-2">
+                <Link href="https://facebook.com" target="_blank" className="hover:text-[#0AA9ED] transition">
+                  <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M..." /></svg>
+                </Link>
+                <Link href="https://twitter.com" target="_blank" className="hover:text-[#0AA9ED] transition">
+                  <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M..." /></svg>
+                </Link>
+                <Link href="https://instagram.com" target="_blank" className="hover:text-[#0AA9ED] transition">
+                  <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M..." /></svg>
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Copyright */}
+          <div className="text-gray-400 text-sm text-center mt-6">
+            <p>© 2025 Athera AI. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
