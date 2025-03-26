@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Home, Headphones, BarChart2, Calendar, Menu, X, Settings, BotMessageSquareIcon } from "lucide-react";
+import { Home, Headphones, BarChart2, Calendar, Menu, Flame, Settings, BotMessageSquareIcon } from "lucide-react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
@@ -31,7 +31,7 @@ export default function Meditation() { // Meditation page component
         className="fixed top-4 left-4 z-50 bg-[#07304A] text-white p-2 rounded-full shadow-lg md:hidden"
         onClick={() => setSidebarOpen(!sidebarOpen)}
       >
-        {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
+        {sidebarOpen ? <Flame size={24} /> : <Menu size={24} />}
       </button>
 
       {/* Sidebar Menu */}
@@ -47,7 +47,7 @@ export default function Meditation() { // Meditation page component
             </Link>
           </li>
           <li>
-            <Link href="/guided-meditations" className="flex items-center gap-3 hover:text-[#0AA9ED] cursor-pointer">
+            <Link href="/guidedmeditation" className="flex items-center gap-3 hover:text-[#0AA9ED] cursor-pointer">
               <Headphones size={20} /> Guided Meditations
             </Link>
           </li>
@@ -64,6 +64,11 @@ export default function Meditation() { // Meditation page component
           <li>
             <Link href="/chatbot" className="flex items-center gap-3 hover:text-[#0AA9ED] cursor-pointer">
               <BotMessageSquareIcon size={20} /> AI Chatbot
+            </Link>
+          </li>
+          <li>
+            <Link href="/workout" className="flex items-center gap-3 hover:text-[#0AA9ED] cursor-pointer">
+              <Flame size={20} /> Workout Plan
             </Link>
           </li>
         </ul>
