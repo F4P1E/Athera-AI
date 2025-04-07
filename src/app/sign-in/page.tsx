@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button"; // Replace with your own button component
+import { Button } from "@/components/ui/button"; 
 import Link from "next/link";
 
 export default function SignIn() {
