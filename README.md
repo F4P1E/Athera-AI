@@ -29,13 +29,13 @@ cd Athera-AI
 ### **2️⃣ Install Dependencies**
 
 ```sh
-npm install
+pnpm install
 ```
 
 ### **3️⃣ Run Development Server**
 
 ```sh
-npm run dev
+pnpm run dev
 ```
 
 The application will start in development mode with Turbopack enabled. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
@@ -51,10 +51,10 @@ The application will start in development mode with Turbopack enabled. Open [htt
 
 ## 📜 **Available Scripts**
 
-- `npm run dev` - Starts development server with Turbopack
-- `npm run build` - Creates production build
-- `npm start` - Runs production server
-- `npm run lint` - Runs ESLint for code linting
+- `pnpm dev` - Starts development server with Turbopack
+- `pnpm build` - Creates production build
+- `pnpm start` - Runs production server
+- `pnpm lint` - Runs ESLint for code linting
 
 ## 📌 **Future Improvements**
 
