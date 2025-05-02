@@ -1,9 +1,8 @@
-import { SupabaseCookie, checkEnvVariables } from './common';
-import { createServerClient } from '@supabase/ssr';
-import type { SupabaseClient } from '@supabase/supabase-js';
-import { Database } from '@tuturuuu/types/supabase';
-import type { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
-import { cookies } from 'next/headers';
+import { SupabaseCookie, checkEnvVariables } from "./common";
+import { createServerClient } from "@supabase/ssr";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
+import { cookies } from "next/headers";
 
 function createCookieHandler(cookieStore: ReadonlyRequestCookies) {
   return {
@@ -27,7 +26,7 @@ function createCookieHandler(cookieStore: ReadonlyRequestCookies) {
 async function createGenericClient(isAdmin: boolean) {
   const { url, key } = checkEnvVariables({ useServiceKey: isAdmin });
   const cookieStore = await cookies();
-  return createServerClient<Database>(url, key, {
+  return createServerClient<any>(url, key, {
     cookies: isAdmin
       ? {
           getAll() {
@@ -41,19 +40,17 @@ async function createGenericClient(isAdmin: boolean) {
 }
 
 export function createAdminClient(): Promise<
-  SupabaseClient<Database, 'public', Database['public']>
+  SupabaseClient<any, "public", any>
 > {
   return createGenericClient(true);
 }
 
-export function createClient(): Promise<
-  SupabaseClient<Database, 'public', Database['public']>
-> {
+export function createClient(): Promise<SupabaseClient<any, "public", any>> {
   return createGenericClient(false);
 }
 
 export async function createDynamicClient(): Promise<
-  SupabaseClient<any, 'public', any>
+  SupabaseClient<any, "public", any>
 > {
   const { url, key } = checkEnvVariables({ useServiceKey: false });
   const cookieStore = await cookies();
