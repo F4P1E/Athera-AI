@@ -2,7 +2,14 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { PlayCircle, PauseCircle, Music, Home, Sparkles, Volume2 } from "lucide-react";
+import {
+  PlayCircle,
+  PauseCircle,
+  Music,
+  Home,
+  Sparkles,
+  Volume2,
+} from "lucide-react";
 
 interface MusicTrack {
   name: string;
@@ -18,8 +25,12 @@ export default function Session() {
   const [timeLeft, setTimeLeft] = useState<number>(600);
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [currentTrack, setCurrentTrack] = useState<MusicTrack>(musicTracks[0]);
-  const [audio, setAudio] = useState<HTMLAudioElement | null>(new Audio(musicTracks[0].src));
-  const [recommendedTrack, setRecommendedTrack] = useState<MusicTrack | null>(null);
+  const [audio, _setAudio] = useState<HTMLAudioElement | null>(
+    new Audio(musicTracks[0].src)
+  );
+  const [recommendedTrack, setRecommendedTrack] = useState<MusicTrack | null>(
+    null
+  );
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(0.5); // Default volume at 50%
 
@@ -50,7 +61,8 @@ export default function Session() {
 
   // AI-powered recommendation logic
   const recommendMusic = () => {
-    const recommended = musicTracks[Math.floor(Math.random() * musicTracks.length)];
+    const recommended =
+      musicTracks[Math.floor(Math.random() * musicTracks.length)];
     setRecommendedTrack(recommended);
     setCurrentTrack(recommended);
   };
@@ -100,7 +112,10 @@ export default function Session() {
 
         <select
           onChange={(e) =>
-            setCurrentTrack(musicTracks.find((track) => track.name === e.target.value) || musicTracks[0])
+            setCurrentTrack(
+              musicTracks.find((track) => track.name === e.target.value) ||
+                musicTracks[0]
+            )
           }
           className="mt-2 p-2 border rounded-lg"
           value={currentTrack.name}

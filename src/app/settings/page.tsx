@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
-import { Camera, Lock, Bell, Moon, Trash2, Save } from "lucide-react";
+import { Camera, Lock, Trash2, Save } from "lucide-react";
 
 export default function Settings() {
   const [darkMode, setDarkMode] = useState(false);
@@ -16,15 +16,24 @@ export default function Settings() {
   const [avatar, setAvatar] = useState("/default-avatar.png");
 
   return (
-    <main className={`min-h-screen p-6 ${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"}`}>
+    <main
+      className={`min-h-screen p-6 ${
+        darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"
+      }`}
+    >
       {/* Back to Home Button */}
       <div className="mb-6">
-        <Link href="/" className="flex items-center text-blue-600 hover:underline">
+        <Link
+          href="/"
+          className="flex items-center text-blue-600 hover:underline"
+        >
           <ArrowLeft size={20} className="mr-2" /> Back to Home
         </Link>
       </div>
       <h1 className="text-3xl font-bold text-center">User Settings</h1>
-      <p className="text-center text-gray-500">Manage your account settings and preferences</p>
+      <p className="text-center text-gray-500">
+        Manage your account settings and preferences
+      </p>
 
       <div className="max-w-3xl mx-auto mt-8 bg-white shadow-lg rounded-lg p-6">
         {/* Profile Section */}
@@ -33,17 +42,36 @@ export default function Settings() {
           <Separator className="my-4" />
           <div className="flex items-center gap-6">
             <div className="relative w-20 h-20">
-              <Image src={avatar} alt="Avatar" width={80} height={80} className="rounded-full object-cover border" />
+              <Image
+                src={avatar}
+                alt="Avatar"
+                width={80}
+                height={80}
+                className="rounded-full object-cover border"
+              />
               <label className="absolute bottom-0 right-0 bg-blue-600 text-white p-1 rounded-full cursor-pointer">
                 <Camera size={16} />
-                <input type="file" className="hidden" onChange={(e) => setAvatar(URL.createObjectURL(e.target.files?.[0]))} />
+                <input
+                  type="file"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      setAvatar(URL.createObjectURL(file));
+                    }
+                  }}
+                />
               </label>
             </div>
             <div className="flex-1">
               <label className="text-sm text-gray-500">Full Name</label>
               <Input placeholder="Enter your name" className="mt-1" />
               <label className="text-sm text-gray-500 mt-3 block">Email</label>
-              <Input type="email" placeholder="Enter your email" className="mt-1" />
+              <Input
+                type="email"
+                placeholder="Enter your email"
+                className="mt-1"
+              />
             </div>
           </div>
         </section>
@@ -55,7 +83,9 @@ export default function Settings() {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-md font-medium">Change Password</h3>
-              <p className="text-sm text-gray-500">Update your account password</p>
+              <p className="text-sm text-gray-500">
+                Update your account password
+              </p>
             </div>
             <Button variant="outline">
               <Lock size={16} className="mr-2" /> Change
@@ -63,8 +93,12 @@ export default function Settings() {
           </div>
           <div className="flex items-center justify-between mt-4">
             <div>
-              <h3 className="text-md font-medium">Enable Two-Factor Authentication (2FA)</h3>
-              <p className="text-sm text-gray-500">Extra layer of security for your account</p>
+              <h3 className="text-md font-medium">
+                Enable Two-Factor Authentication (2FA)
+              </h3>
+              <p className="text-sm text-gray-500">
+                Extra layer of security for your account
+              </p>
             </div>
             <Switch />
           </div>
@@ -79,7 +113,10 @@ export default function Settings() {
               <h3 className="text-md font-medium">Email Notifications</h3>
               <p className="text-sm text-gray-500">Receive updates via email</p>
             </div>
-            <Switch checked={notifications} onCheckedChange={setNotifications} />
+            <Switch
+              checked={notifications}
+              onCheckedChange={setNotifications}
+            />
           </div>
         </section>
 
@@ -90,7 +127,9 @@ export default function Settings() {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-md font-medium">Dark Mode</h3>
-              <p className="text-sm text-gray-500">Enable dark mode for better visibility</p>
+              <p className="text-sm text-gray-500">
+                Enable dark mode for better visibility
+              </p>
             </div>
             <Switch checked={darkMode} onCheckedChange={setDarkMode} />
           </div>
@@ -103,7 +142,9 @@ export default function Settings() {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-md font-medium">Delete Account</h3>
-              <p className="text-sm text-gray-500">Permanently remove your account</p>
+              <p className="text-sm text-gray-500">
+                Permanently remove your account
+              </p>
             </div>
             <Button variant="destructive">
               <Trash2 size={16} className="mr-2" /> Delete
