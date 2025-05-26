@@ -16,6 +16,9 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const formSchema = z
   .object({
@@ -34,6 +37,8 @@ const formSchema = z
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
+  const supabase = createClient();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -45,11 +50,24 @@ export default function SignUp() {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    // Call your sign-up API or service here
-    console.log("Sign-up attempt:", {
-      email: values.email,
-      password: values.password,
-    });
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: values.email,
+        password: values.password,
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      if (data.user) {
+        toast.success("Account created successfully!");
+        router.push("/sign-in");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to create account. Please try again.");
+    }
   };
 
   return (

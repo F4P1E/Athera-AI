@@ -16,6 +16,9 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
+import { createClient } from "@/utils/supabase/client";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -28,6 +31,8 @@ const formSchema = z.object({
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
+  const supabase = createClient();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -38,9 +43,23 @@ export default function SignIn() {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    // Placeholder for your sign-in logic (e.g., API request to authenticate)
-    console.log("Sign-in attempt:", values);
-    // Call your sign-in API or service here
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: values.email,
+        password: values.password,
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      if (data) {
+        router.push("/");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Invalid email or password");
+    }
   };
 
   return (
