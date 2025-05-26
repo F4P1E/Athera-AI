@@ -1,32 +1,55 @@
 "use client";
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button"; 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
+
+const formSchema = z.object({
+  email: z.string().email({
+    message: "Please enter a valid email address.",
+  }),
+  password: z.string().min(6, {
+    message: "Password must be at least 6 characters.",
+  }),
+});
 
 export default function SignIn() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-  const handleSignIn = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     // Placeholder for your sign-in logic (e.g., API request to authenticate)
-    if (!email || !password) {
-      setError("Please fill in both fields.");
-    } else {
-      setError("");
-      // Call your sign-in API or service here
-      console.log("Sign-in attempt:", { email, password });
-    }
-
+    console.log("Sign-in attempt:", values);
+    // Call your sign-in API or service here
   };
 
   return (
     <div className="relative min-h-screen flex bg-gradient-to-br from-[#F0F5FF] to-[#DDE7F9]">
       {/* Left Section (Image) */}
-      <div className="hidden md:block w-1/2 bg-cover bg-center" style={{ backgroundImage: 'url("/hero/hero-background.jpg")' }}></div>
+      <div
+        className="hidden md:block w-1/2 bg-cover bg-center"
+        style={{ backgroundImage: 'url("/hero/hero-background.jpg")' }}
+      ></div>
 
       {/* Right Section (Form) */}
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center px-6 py-12">
@@ -38,49 +61,73 @@ export default function SignIn() {
             Sign in to continue to your personalized dashboard.
           </p>
 
-          {/* Error Message */}
-          {error && (
-            <div className="text-red-500 text-sm mb-4 text-center">{error}</div>
-          )}
-
           {/* Sign-in Form */}
-          <form onSubmit={handleSignIn}>
-            <div className="mb-6">
-              <label className="block text-gray-700 font-medium" htmlFor="email">
-                Email Address
-              </label>
-              <input
-                type="email"
-                id="email"
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <FormField
+                control={form.control}
                 name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full mt-2 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#34C0FC] placeholder:text-gray-500"
-                placeholder="youremail@domain.com"
-                required
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-gray-700 font-medium">
+                      Email Address
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="youremail@domain.com"
+                        className="px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#34C0FC] placeholder:text-gray-500"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
 
-            <div className="mb-8">
-              <label className="block text-gray-700 font-medium" htmlFor="password">
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
+              <FormField
+                control={form.control}
                 name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full mt-2 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#34C0FC] placeholder:text-gray-500"
-                placeholder="********"
-                required
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-gray-700 font-medium">
+                      Password
+                    </FormLabel>
+                    <div className="relative">
+                      <FormControl>
+                        <Input
+                          type={showPassword ? "text" : "password"}
+                          placeholder="********"
+                          className="px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#34C0FC] placeholder:text-gray-500"
+                          {...field}
+                        />
+                      </FormControl>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        className="absolute right-0 top-0 h-full px-3"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <Eye className="w-4 h-4" />
+                        ) : (
+                          <EyeOff className="w-4 h-4" />
+                        )}
+                      </Button>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
 
-            <Button className="w-full bg-[#34C0FC] text-white py-3 rounded-md shadow-md hover:bg-[#1D92D0] transition">
-              Sign In
-            </Button>
-          </form>
+              <Button
+                type="submit"
+                className="w-full bg-[#34C0FC] text-white py-3 rounded-md shadow-md hover:bg-[#1D92D0] transition"
+                disabled={form.formState.isSubmitting}
+              >
+                {form.formState.isSubmitting ? "Signing In..." : "Sign In"}
+              </Button>
+            </form>
+          </Form>
 
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
