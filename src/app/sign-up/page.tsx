@@ -1,72 +1,113 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
-import { createClient } from "@/utils/supabase/client";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-
-const formSchema = z
-  .object({
-    email: z.string().email({
-      message: "Please enter a valid email address.",
-    }),
-    password: z.string().min(6, {
-      message: "Password must be at least 6 characters.",
-    }),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match.",
-    path: ["confirmPassword"],
-  });
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import SignUpForm, { type SignUpFormValues } from "./sign-up-form";
+import VerifyOtpForm, { VerifyOtpFormValues } from "./verify-otp-form";
 
 export default function SignUp() {
-  const [showPassword, setShowPassword] = useState(false);
-  const supabase = createClient();
   const router = useRouter();
+  const [step, setStep] = useState<"signup" | "verify">("signup");
+  const [email, setEmail] = useState<string | null>(null);
+  const [password, setPassword] = useState<string | null>(null);
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-      confirmPassword: "",
-    },
-  });
-
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: SignUpFormValues) => {
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email: values.email,
-        password: values.password,
-      });
-
-      if (error) {
-        throw error;
-      }
-
-      if (data.user) {
-        toast.success("Account created successfully!");
-        router.push("/sign-in");
-      }
+      await sendOtp(values.email, values.password);
+      setEmail(values.email);
+      setPassword(values.password);
+      setStep("verify");
+      toast.success("Verification code sent to your email!");
     } catch (error) {
       console.error(error);
-      toast.error("Failed to create account. Please try again.");
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to send verification code. Please try again."
+      );
+    }
+  };
+
+  const sendOtp = async (email: string | null, password: string | null) => {
+    if (!email || !password) {
+      throw new Error("Email and password are required");
+    }
+
+    try {
+      const response = await fetch("/api/otp/send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to send OTP");
+      }
+
+      return data;
+    } catch (error) {
+      console.error(error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to send verification code. Please try again."
+      );
+    }
+  };
+
+  const resendOtp = async () => {
+    try {
+      if (!email || !password) {
+        throw new Error("Email and password are required");
+      }
+
+      await sendOtp(email, password);
+      toast.success("Verification code resent!");
+    } catch (error) {
+      console.error(error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to resend verification code. Please try again."
+      );
+    }
+  };
+
+  const verifyOtp = async (values: VerifyOtpFormValues) => {
+    try {
+      const response = await fetch("/api/otp/verify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          otp: values.otp,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to verify OTP");
+      }
+
+      toast.success("Account verified successfully!");
+      router.push("/");
+    } catch (error) {
+      console.error(error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to verify OTP. Please try again."
+      );
     }
   };
 
@@ -81,123 +122,55 @@ export default function SignUp() {
       {/* Right Section (Form) */}
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center px-6 py-12">
         <div className="bg-white p-10 rounded-lg shadow-lg w-full max-w-md">
-          <h1 className="text-4xl font-extrabold text-gray-900 mb-6 text-center">
-            Create Your Account
-          </h1>
+          {step === "signup" ? (
+            <>
+              <h1 className="text-4xl font-extrabold text-gray-900 mb-6 text-center">
+                Create Your Account
+              </h1>
 
-          {/* Sign-up Form */}
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-gray-700 font-medium">
-                      Email Address
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        type="email"
-                        placeholder="youremail@domain.com"
-                        className="px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#34C0FC] placeholder:text-gray-500"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {/* Sign-up Form */}
+              <SignUpForm onSubmit={onSubmit} />
 
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-gray-700 font-medium">
-                      Password
-                    </FormLabel>
-                    <div className="relative">
-                      <FormControl>
-                        <Input
-                          type={showPassword ? "text" : "password"}
-                          placeholder="********"
-                          className="px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#34C0FC] placeholder:text-gray-500"
-                          {...field}
-                        />
-                      </FormControl>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        className="absolute right-0 top-0 h-full px-3"
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {showPassword ? (
-                          <Eye className="w-4 h-4" />
-                        ) : (
-                          <EyeOff className="w-4 h-4" />
-                        )}
-                      </Button>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="mt-6 text-center">
+                <p className="text-sm text-gray-600">
+                  Already have an account?{" "}
+                  <Link
+                    href="/sign-in"
+                    className="text-[#34C0FC] font-semibold"
+                  >
+                    Sign In
+                  </Link>
+                </p>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="space-y-6 mb-6">
+                <div className="text-center">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                    Verify Your Email
+                  </h2>
+                  <p className="text-gray-600">
+                    We&apos;ve sent a 6-digit verification code to{" "}
+                    <span className="font-semibold">{email}</span>
+                  </p>
+                </div>
+              </div>
 
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-gray-700 font-medium">
-                      Confirm Password
-                    </FormLabel>
-                    <div className="relative">
-                      <FormControl>
-                        <Input
-                          type={showPassword ? "text" : "password"}
-                          placeholder="********"
-                          className="px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#34C0FC] placeholder:text-gray-500"
-                          {...field}
-                        />
-                      </FormControl>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        className="absolute right-0 top-0 h-full px-3"
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        {showPassword ? (
-                          <Eye className="w-4 h-4" />
-                        ) : (
-                          <EyeOff className="w-4 h-4" />
-                        )}
-                      </Button>
-                    </div>
-                  </FormItem>
-                )}
-              />
+              {/* OTP Verification Form */}
+              <VerifyOtpForm onSuccess={verifyOtp} onResendOtp={resendOtp} />
 
-              <Button
-                type="submit"
-                className="w-full bg-[#34C0FC] text-white py-3 rounded-md shadow-md hover:bg-[#1D92D0] transition"
-                disabled={form.formState.isSubmitting}
-              >
-                {form.formState.isSubmitting
-                  ? "Creating Account..."
-                  : "Sign Up"}
-              </Button>
-            </form>
-          </Form>
-
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
-              Already have an account?{" "}
-              <Link href="/sign-in" className="text-[#34C0FC] font-semibold">
-                Sign In
-              </Link>
-            </p>
-          </div>
+              <div className="mt-6 text-center">
+                <Button
+                  variant="ghost"
+                  onClick={() => setStep("signup")}
+                  className="text-sm text-gray-600 hover:text-gray-800"
+                >
+                  ← Back to sign up
+                </Button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
