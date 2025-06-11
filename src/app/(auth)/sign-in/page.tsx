@@ -18,14 +18,14 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email({
     message: "Please enter a valid email address.",
   }),
-  password: z.string().min(6, {
-    message: "Password must be at least 6 characters.",
+  password: z.string().min(8, {
+    message: "Password must be at least 8 characters.",
   }),
 });
 
@@ -33,6 +33,8 @@ export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
   const supabase = createClient();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const returnUrl = searchParams.get("returnUrl") || "/";
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -54,7 +56,7 @@ export default function SignIn() {
       }
 
       if (data) {
-        router.push("/");
+        router.push(decodeURIComponent(returnUrl));
       }
     } catch (error) {
       console.error(error);
