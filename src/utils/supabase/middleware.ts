@@ -12,6 +12,7 @@ export async function updateSession(request: NextRequest): Promise<{
   });
 
   const { url, key } = checkEnvVariables({ useServiceKey: false });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const supabase = createServerClient<any>(url, key, {
     cookies: {
       getAll() {
