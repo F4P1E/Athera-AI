@@ -9,7 +9,7 @@ export default async function MarketingLayout({
   children,
 }: MarketingLayoutProps) {
   return (
-    <main className="bg-foreground">
+    <main className="bg-background">
       <Navbar />
       <NavbarPadding />
       {children}

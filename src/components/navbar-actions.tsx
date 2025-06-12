@@ -1,7 +1,8 @@
 import { Button } from "./ui/button";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
-import SignOutButton from "./sign-out-button";
+import NotificationPopover from "./notification-popover";
+import UserNav from "./user-nav";
 
 export default async function NavbarActions() {
   const supabase = await createClient();
@@ -12,7 +13,10 @@ export default async function NavbarActions() {
   return (
     <>
       {user ? (
-        <SignOutButton />
+        <div className="flex items-center gap-4">
+          <NotificationPopover />
+          <UserNav user={user} />
+        </div>
       ) : (
         <Link href="/sign-in">
           <Button className="bg-[#07304A] hover:bg-[#34C0FC] text-white">

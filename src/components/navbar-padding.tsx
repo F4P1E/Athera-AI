@@ -1,3 +1,3 @@
 export default function NavbarPadding() {
-  return <div className="h-20" />;
+  return <div className="h-16" />;
 }
