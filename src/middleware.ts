@@ -1,28 +1,30 @@
 import { updateSession } from "@/utils/supabase/middleware";
 import { type NextRequest, NextResponse } from "next/server";
 
-const publicPaths = ["/", "/about", "/contact", "/services"];
-
+const publicPaths = ["/about", "/contact", "/services"];
 const authPaths = ["/sign-in", "/sign-up"];
 
 export async function middleware(request: NextRequest) {
-  const { pathname, search } = request.nextUrl;
+  const { origin, pathname, search, searchParams } = request.nextUrl;
   const { res, user } = await updateSession(request);
 
+  if (pathname === "/") return res;
+
   // If user is logged in and tries to access auth pages
-  if (user && authPaths.some((path) => path.startsWith(pathname))) {
-    return NextResponse.redirect(new URL("/", request.url));
+  if (user && authPaths.some((path) => pathname.startsWith(path))) {
+    const returnUrl = decodeURIComponent(searchParams.get("returnUrl") || "");
+    return NextResponse.redirect(new URL(returnUrl, origin));
   }
 
   // If user is not logged in and tries to access protected routes
   if (
     !user &&
-    !publicPaths.some((path) => path.startsWith(pathname)) &&
-    !authPaths.some((path) => path.startsWith(pathname))
+    !publicPaths.some((path) => pathname.startsWith(path)) &&
+    !authPaths.some((path) => pathname.startsWith(path))
   ) {
     const returnUrl = encodeURIComponent(pathname + search);
     return NextResponse.redirect(
-      new URL(`/sign-in?returnUrl=${returnUrl}`, request.url)
+      new URL(`/sign-in?returnUrl=${returnUrl}`, origin)
     );
   }
 
