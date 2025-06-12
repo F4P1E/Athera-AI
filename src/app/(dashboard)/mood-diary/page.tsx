@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Line } from "react-chartjs-2";
@@ -17,7 +16,15 @@ import {
   Legend,
 } from "chart.js";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 interface MoodEntry {
   date: string;
@@ -26,10 +33,26 @@ interface MoodEntry {
 }
 
 const moodOptions = [
-  { name: "Happy", icon: "😊", color: "bg-green-100 border-green-500 text-green-700" },
-  { name: "Neutral", icon: "😐", color: "bg-yellow-100 border-yellow-500 text-yellow-700" },
-  { name: "Sad", icon: "😢", color: "bg-blue-100 border-blue-500 text-blue-700" },
-  { name: "Energetic", icon: "⚡", color: "bg-orange-100 border-orange-500 text-orange-700" },
+  {
+    name: "Happy",
+    icon: "😊",
+    color: "bg-green-100 border-green-500 text-green-700",
+  },
+  {
+    name: "Neutral",
+    icon: "😐",
+    color: "bg-yellow-100 border-yellow-500 text-yellow-700",
+  },
+  {
+    name: "Sad",
+    icon: "😢",
+    color: "bg-blue-100 border-blue-500 text-blue-700",
+  },
+  {
+    name: "Energetic",
+    icon: "⚡",
+    color: "bg-orange-100 border-orange-500 text-orange-700",
+  },
 ];
 
 export default function MoodDiary() {
@@ -69,10 +92,12 @@ export default function MoodDiary() {
     return 0;
   };
 
-  const weeklyData = Array.from({ length: 7 }).map((_, i) => {
-    const date = format(subDays(new Date(), i), "yyyy-MM-dd");
-    return { date, mood: getMoodForDate(date) };
-  }).reverse();
+  const weeklyData = Array.from({ length: 7 })
+    .map((_, i) => {
+      const date = format(subDays(new Date(), i), "yyyy-MM-dd");
+      return { date, mood: getMoodForDate(date) };
+    })
+    .reverse();
 
   const moodChartData = {
     labels: weeklyData.map((entry) => format(new Date(entry.date), "EEE")),
@@ -88,21 +113,7 @@ export default function MoodDiary() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-      {/* ✅ Header Section */}
-      <header className="flex justify-between items-center p-6 bg-gray-100 shadow-md">
-        <div className="text-lg font-bold">Athera AI</div>
-        <nav className="flex gap-6">
-          <Link href="/meditation" className="hover:text-[#34C0FC]">Meditation</Link>
-          <Link href="/mood-diary" className="hover:text-[#34C0FC]">Mood Diary</Link>
-          <Link href="/services" className="hover:text-[#34C0FC]">Services</Link>
-          <Link href="/about" className="hover:text-[#34C0FC]">About Us</Link>
-        </nav>
-        <Link href="/sign-in">
-          <Button className="bg-[#07304A] hover:bg-[#34C0FC] text-white">Sign In</Button>
-        </Link>
-      </header>
-
+    <div className="p-6">
       {/* Mood Selection */}
       <h3 className="text-lg font-semibold mb-3">How are you feeling today?</h3>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
@@ -121,7 +132,7 @@ export default function MoodDiary() {
       </div>
 
       {/* Notes Section */}
-      <h3 className="text-lg font-semibold mb-2">📖 Today's Reflection</h3>
+      <h3 className="text-lg font-semibold mb-2">📖 Today&apos;s Reflection</h3>
       <Textarea
         value={note}
         onChange={(e) => setNote(e.target.value)}
@@ -136,14 +147,18 @@ export default function MoodDiary() {
       </Button>
 
       {/* Weekly Mood Tracker */}
-      <h3 className="text-lg font-semibold mt-6 mb-3">📊 Your Mood This Week</h3>
+      <h3 className="text-lg font-semibold mt-6 mb-3">
+        📊 Your Mood This Week
+      </h3>
       <div className="grid grid-cols-7 gap-2">
         {weeklyData.map((entry, i) => {
           const moodOption = moodOptions.find((m) => m.name === entry.mood);
 
           return (
             <div key={entry.date} className="text-center">
-              <div className="text-xs text-gray-500">{format(subDays(new Date(), i), "EEE")}</div>
+              <div className="text-xs text-gray-500">
+                {format(subDays(new Date(), i), "EEE")}
+              </div>
               <div
                 className={`w-10 h-10 flex items-center justify-center rounded-md text-lg ${
                   moodOption?.color || "bg-gray-200"
@@ -157,9 +172,14 @@ export default function MoodDiary() {
       </div>
 
       {/* Mood Trend Chart */}
-      <h3 className="text-lg font-semibold mt-6 mb-3 text-center">📈 Mood Trend</h3>
+      <h3 className="text-lg font-semibold mt-6 mb-3 text-center">
+        📈 Mood Trend
+      </h3>
       <div className="w-full h-48">
-        <Line data={moodChartData} options={{ responsive: true, maintainAspectRatio: false }} />
+        <Line
+          data={moodChartData}
+          options={{ responsive: true, maintainAspectRatio: false }}
+        />
       </div>
     </div>
   );

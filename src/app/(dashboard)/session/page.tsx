@@ -1,12 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
+import { useState, useEffect, useRef } from "react";
 import {
   PlayCircle,
   PauseCircle,
   Music,
-  Home,
   Sparkles,
   Volume2,
 } from "lucide-react";
@@ -25,9 +23,7 @@ export default function Session() {
   const [timeLeft, setTimeLeft] = useState<number>(600);
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [currentTrack, setCurrentTrack] = useState<MusicTrack>(musicTracks[0]);
-  const [audio, _setAudio] = useState<HTMLAudioElement | null>(
-    new Audio(musicTracks[0].src)
-  );
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const [recommendedTrack, setRecommendedTrack] = useState<MusicTrack | null>(
     null
   );
@@ -43,20 +39,29 @@ export default function Session() {
   }, [isRunning, timeLeft]);
 
   useEffect(() => {
-    if (audio) {
-      audio.pause();
-      audio.src = currentTrack.src;
-      audio.load();
-      audio.volume = volume; // Apply volume setting to new audio
-      if (isPlaying) audio.play();
+    // Only create Audio instance on the client
+    if (typeof window !== "undefined" && !audioRef.current) {
+      audioRef.current = new window.Audio(currentTrack.src);
+      audioRef.current.volume = volume;
     }
-  }, [currentTrack]);
+  }, [currentTrack.src, volume]);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.src = currentTrack.src;
+      audioRef.current.load();
+      audioRef.current.volume = volume;
+      if (isPlaying) audioRef.current.play();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentTrack, isPlaying]);
 
   // Handle Volume Change
   const changeVolume = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newVolume = parseFloat(event.target.value);
     setVolume(newVolume);
-    if (audio) audio.volume = newVolume;
+    if (audioRef.current) audioRef.current.volume = newVolume;
   };
 
   // AI-powered recommendation logic
@@ -68,11 +73,11 @@ export default function Session() {
   };
 
   const togglePlayPause = () => {
-    if (!audio) return;
+    if (!audioRef.current) return;
     if (isPlaying) {
-      audio.pause();
+      audioRef.current.pause();
     } else {
-      audio.play();
+      audioRef.current.play();
     }
     setIsPlaying(!isPlaying);
   };
@@ -157,13 +162,6 @@ export default function Session() {
           <Sparkles size={20} /> AI Recommend
         </button>
       </div>
-
-      {/* Go Back Button */}
-      <Link href="/">
-        <button className="absolute top-4 left-4 bg-white px-4 py-2 rounded-full shadow-md flex items-center gap-2">
-          <Home size={20} /> Home
-        </button>
-      </Link>
     </div>
   );
 }

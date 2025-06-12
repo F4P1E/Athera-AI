@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
@@ -16,20 +14,11 @@ export default function Settings() {
   const [avatar, setAvatar] = useState("/default-avatar.png");
 
   return (
-    <main
-      className={`min-h-screen p-6 ${
+    <div
+      className={`p-6 ${
         darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"
       }`}
     >
-      {/* Back to Home Button */}
-      <div className="mb-6">
-        <Link
-          href="/"
-          className="flex items-center text-blue-600 hover:underline"
-        >
-          <ArrowLeft size={20} className="mr-2" /> Back to Home
-        </Link>
-      </div>
       <h1 className="text-3xl font-bold text-center">User Settings</h1>
       <p className="text-center text-gray-500">
         Manage your account settings and preferences
@@ -159,6 +148,6 @@ export default function Settings() {
           </Button>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

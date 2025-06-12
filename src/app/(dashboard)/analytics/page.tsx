@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Line, Bar } from "react-chartjs-2";
 import {
   Activity,
@@ -23,7 +22,6 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import Link from "next/link";
 
 // Register Chart.js Components
 ChartJS.register(
@@ -56,34 +54,7 @@ export default function AnalyticsPage() {
   }, []);
 
   return (
-    <div className="bg-gradient-to-br from-[#F0F5FF] to-[#DDE7F9] min-h-screen px-6 py-10">
-      {/* ✅ Header */}
-      <header className="flex justify-between items-center p-6 bg-white shadow-md fixed top-0 left-0 w-full z-20">
-        <div className="text-lg font-bold text-gray-900">Athera AI</div>
-        <nav className="flex gap-6 text-gray-700 font-medium">
-          <Link href="/" className="hover:text-[#34C0FC] transition">
-            Home
-          </Link>
-          <Link href="/meditation" className="hover:text-[#34C0FC] transition">
-            Meditation
-          </Link>
-          <Link
-            href="/workout-plan"
-            className="hover:text-[#34C0FC] transition"
-          >
-            Workouts
-          </Link>
-          <Link href="/analytics" className="text-[#34C0FC] font-bold">
-            Analytics
-          </Link>
-        </nav>
-        <Link href="/sign-in">
-          <Button className="bg-[#07304A] hover:bg-[#34C0FC] text-white px-4 py-2 rounded-md shadow">
-            Sign In
-          </Button>
-        </Link>
-      </header>
-
+    <>
       {/* Hero Section */}
       <section className="pt-28 pb-10 text-center">
         <h1 className="text-5xl font-extrabold text-gray-900 drop-shadow-md">
@@ -193,6 +164,6 @@ export default function AnalyticsPage() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </>
   );
 }

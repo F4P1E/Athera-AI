@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import Link from "next/link";
 import { PlayCircle, PauseCircle, Sparkles, Timer, Music } from "lucide-react";
 import { OpenAI } from "openai"; // Ensure OpenAI SDK is installed
 
@@ -79,34 +78,7 @@ export default function GuidedMeditation() {
   };
 
   return (
-    <div className="bg-gradient-to-br from-[#F0F5FF] to-[#DDE7F9] min-h-screen flex flex-col">
-      {/* ✅ Header */}
-      <header className="flex justify-between items-center p-6 bg-white shadow-md fixed top-0 left-0 w-full z-20">
-        <div className="text-lg font-bold text-gray-900">Athera AI</div>
-        <nav className="flex gap-6 text-gray-700 font-medium">
-          <Link href="/" className="hover:text-[#34C0FC] transition">
-            Home
-          </Link>
-          <Link href="/meditation" className="text-[#34C0FC] font-bold">
-            Meditation
-          </Link>
-          <Link href="/mood-diary" className="hover:text-[#34C0FC] transition">
-            Mood Diary
-          </Link>
-          <Link
-            href="/workout-plan"
-            className="hover:text-[#34C0FC] transition"
-          >
-            Workout Plan
-          </Link>
-        </nav>
-        <Link href="/sign-in">
-          <Button className="bg-[#07304A] hover:bg-[#34C0FC] text-white px-4 py-2 rounded-md shadow">
-            Sign In
-          </Button>
-        </Link>
-      </header>
-
+    <>
       {/* ✅ Hero Section */}
       <section className="flex flex-col items-center text-center pt-28 pb-10">
         <h1 className="text-5xl font-extrabold text-gray-900 drop-shadow-md">
@@ -184,6 +156,6 @@ export default function GuidedMeditation() {
           </div>
         ))}
       </section>
-    </div>
+    </>
   );
 }
