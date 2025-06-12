@@ -1,3 +1,6 @@
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
+
 interface MarketingLayoutProps {
   children: React.ReactNode;
 }
@@ -5,5 +8,11 @@ interface MarketingLayoutProps {
 export default async function MarketingLayout({
   children,
 }: MarketingLayoutProps) {
-  return children;
+  return (
+    <main className="bg-white text-black">
+      <Navbar />
+      {children}
+      <Footer />
+    </main>
+  );
 }
